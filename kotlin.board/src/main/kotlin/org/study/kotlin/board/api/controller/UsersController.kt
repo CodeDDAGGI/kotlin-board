@@ -3,6 +3,7 @@ package org.study.kotlin.board.api.controller
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -30,8 +31,13 @@ class UsersController (
     ): ResponseEntity<UserDto.LoginResponse> = ResponseEntity.ok(usersFacade.login(request))
 
     @PutMapping("/{id}")
-    fun updateUser (
+    fun updateUser(
         @PathVariable id: Long,
         @Valid @RequestBody request: UserDto.UpdateRequest
-    ): ResponseEntity<UserDto.Response> = ResponseEntity.ok(usersFacade.updateUser(request))
+    ): ResponseEntity<UserDto.Response> = ResponseEntity.ok(usersFacade.updateUser(id, request))
+
+    @DeleteMapping("/{id}")
+    fun deleteUser(
+        @PathVariable id : Long
+    ): ResponseEntity<Unit> = ResponseEntity.ok(usersFacade.deleteUser(id))
 }

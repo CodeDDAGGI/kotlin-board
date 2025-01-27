@@ -6,8 +6,3 @@ abstract class BusinessException (
     message : String,
     val status : HttpStatus =  HttpStatus.BAD_REQUEST
 ): RuntimeException(message)
-
-class DuplicateEmailExcetion(message: String):BusinessException(
-    message = message,
-    status = HttpStatus.CONFLICT
-)

@@ -14,12 +14,14 @@ class SecurityConfig {
     fun filterChain(http:HttpSecurity):SecurityFilterChain{
         http.
                 csrf{it.disable()}
+            .headers{it.frameOptions{it.disable()}}
+            .formLogin{it.disable()}
+            .httpBasic{it.disable()}
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(
-                        "/api/v1/users/signup",
-                        "/api/v1/users/signin",
-                        "/h2-console"
+                        "/api/v1/users/**",
+                        "/h2-console/**"
                     ).permitAll()
                     .anyRequest().authenticated()
             }

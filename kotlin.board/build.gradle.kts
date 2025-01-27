@@ -30,7 +30,6 @@ dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.0.2") // 추가
     implementation("io.github.microutils:kotlin-logging:3.0.5")
     implementation("org.springframework.boot:spring-boot-starter-security") // 추가
-
     runtimeOnly("com.h2database:h2")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

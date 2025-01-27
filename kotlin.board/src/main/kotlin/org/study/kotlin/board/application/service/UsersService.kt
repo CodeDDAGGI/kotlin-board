@@ -31,12 +31,13 @@ class UsersService(
     fun login(request: UserDto.LoginRequest):Users{
         val user = usersRepository.findByEmail(request.email)
             .orElseThrow{CustomExcetion.UserNotFoundExcetion("사용자를 찾을수가 없습니다")}
-        if(user.validatePassword(request.password, passwordEncoder)){
+        if(!user.validatePassword(request.password, passwordEncoder)){
             throw CustomExcetion.UnauthorizedAccessException("비밀번호가 일치하지 않습니다")
         }
         return user
     }
 
+    @Transactional
     fun updateUser(id:Long , command: UserUpdateCommand): UserDto.Response{
         val user = usersRepository.findById(id)
             .orElseThrow{ CustomExcetion.UserNotFoundExcetion("사용자를 찾을 수 없습니다.")}
@@ -64,5 +65,13 @@ class UsersService(
         if(usersRepository.existsByEmail(email)){
             throw CustomExcetion.DuplicateEmailExcetion("이미 사용중인 이메일입니다.")
         }
+    }
+
+    @Transactional
+    fun deleteUser(id: Long){
+        val user = usersRepository.findById(id)
+        user.orElseThrow{CustomExcetion.UserNotFoundExcetion("사용자를 찾을수가 없습니다")}
+
+        usersRepository.deleteById(id)
     }
 }

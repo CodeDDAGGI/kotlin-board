@@ -24,5 +24,10 @@ class UsersFacade (
         return usersService.updateUser(id, request.toCommand())
     }
 
+    fun deleteUser(id:Long) {
+        return usersService.deleteUser(id)
+    }
+
+
     
 }

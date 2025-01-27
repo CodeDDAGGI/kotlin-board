@@ -4,7 +4,6 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.study.kotlin.board.api.controller.dto.UserCreateCommand
 import org.study.kotlin.board.infrastructure.entity.Users
@@ -12,7 +11,7 @@ import org.study.kotlin.board.infrastructure.entity.Users
 // 알트엔터 생성
 class UsersServiceTest : BehaviorSpec({
     val passwordEncoder = mockk<PasswordEncoder>()
-    val usersService = UsersService();
+    val usersService = mockk<UsersService>();
 
     given("User 엔터티 생성 시") {
         val command = UserCreateCommand(
@@ -57,6 +56,11 @@ class UsersServiceTest : BehaviorSpec({
         }
     }
     given("이메일 변경 시"){
+        val user = Users(
+            email = "test@test12.com",
+            name = "test",
+            passwordHash = "encodedPassword"
+        )
         `when`("중복되지 않은 이메일"){
             then("변경에 성공한다"){
 

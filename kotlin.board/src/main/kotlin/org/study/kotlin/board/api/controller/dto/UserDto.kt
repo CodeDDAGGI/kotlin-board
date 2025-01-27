@@ -58,5 +58,10 @@ object UserDto {
                 password = password
             )
     }
+
+    data class deleteRequest (
+        @field:Email
+        val email : String
+    )
 }
 
