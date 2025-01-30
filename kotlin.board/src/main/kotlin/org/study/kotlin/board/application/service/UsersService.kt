@@ -67,6 +67,10 @@ class UsersService(
         }
     }
 
+    fun existsByEmail(email : String ): Boolean{
+        return usersRepository.existsByEmail(email)
+    }
+
     @Transactional
     fun deleteUser(id: Long){
         val user = usersRepository.findById(id)

@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.study.kotlin.board.api.controller.dto.UserCreateCommand
 import org.study.kotlin.board.api.controller.dto.UserDto
-import org.study.kotlin.board.global.annotaion.Password
+import org.study.kotlin.board.application.service.UsersService
 import org.study.kotlin.board.global.config.entity.BaseEntity
 
 @Entity
@@ -20,7 +20,7 @@ class Users(
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 전략적으로 어떻게 가져가는건가
     val id: Long? = null,
     @Column(nullable = false) // nullable false를 줘서 무조건 값이 있어야댐
-    val email: String,
+    var email: String,
     @Column(nullable = false)
     val name: String,
     @Column(nullable = false)
@@ -33,6 +33,13 @@ class Users(
 
     fun validatePassword(rawPassword: String , passwordEncoder: PasswordEncoder):Boolean{
         return passwordEncoder.matches(rawPassword, passwordHash)
+    }
+
+    fun changeEmail(newEmail : String , usersService: UsersService){
+        if(usersService.existsByEmail(newEmail)){
+            throw IllegalArgumentException("이미 존재하는 이메일입니다.")
+        }
+        this.email = newEmail
     }
 
     fun toResponse() =
